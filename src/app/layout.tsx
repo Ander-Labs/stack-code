@@ -17,6 +17,7 @@ const geistMono = localFont({
 import { ThemeProvider } from "@/components/global/theme-provider";
 
 const Header = dynamic(() => import("@/components/global/header"));
+const Footer = dynamic(() => import("@/components/global/footer"));
 
 export const metadata: Metadata = {
   title: "Stack Code",
@@ -41,6 +42,7 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
