@@ -1,12 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Link from "next/link";
+
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Menu, Package2 } from "lucide-react";
+import { Menu } from "lucide-react";
 const ModeToggle = dynamic(() => import("./modeToggle"));
+const NavLinks = dynamic(() => import("./navLinks"));
 
 export default function Header() {
   const pathname = usePathname();
@@ -30,14 +31,7 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent side="left" className="flex flex-col">
                 <nav className="grid gap-2 text-lg font-medium">
-                  <Link
-                    href="/"
-                    className="flex items-center gap-2 text-lg font-semibold hover:text-primary"
-                  >
-                    <Package2 className="h-6 w-6" />
-                    <span>Stack Code</span>
-                  </Link>
-                  {/* <NavLinks /> */}
+                  <NavLinks />
                 </nav>
               </SheetContent>
             </Sheet>
