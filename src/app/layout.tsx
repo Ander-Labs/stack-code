@@ -18,6 +18,7 @@ import { ThemeProvider } from "@/components/global/theme-provider";
 
 const Header = dynamic(() => import("@/components/global/header"));
 const Footer = dynamic(() => import("@/components/global/footer"));
+const MobileNav = dynamic(() => import("@/components/global/mobileNav"));
 
 export const metadata: Metadata = {
   title: "Stack Code",
@@ -43,6 +44,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <MobileNav />
         </ThemeProvider>
       </body>
     </html>
