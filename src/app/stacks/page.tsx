@@ -7,8 +7,8 @@ const PageConstruction = dynamic(
 export default function page() {
   return (
     <>
-      {/* <h2>Bienvenido ha la pagina de Roadmap</h2> */}
-      <PageConstruction/>
+      {/* <h2>Bienvenido ha la pagina de Staks</h2> */}
+      <PageConstruction />
     </>
   );
 }
