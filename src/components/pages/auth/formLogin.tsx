@@ -4,11 +4,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { nhost } from "@/lib/nhost";
+import { useSignInEmailPassword } from "@nhost/nextjs";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+// Schema de validación
 const signInSchema = z.object({
   email: z.string().email("Debe ser un correo electrónico válido"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
@@ -24,7 +24,8 @@ const signInSchema = z.object({
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
-export default function SignInForm() {
+export default function FormLogin() {
+  const { signInEmailPassword } = useSignInEmailPassword();
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
   });
@@ -33,10 +34,14 @@ export default function SignInForm() {
   const onSubmit = async (data: SignInFormData) => {
     setError(null);
     try {
-      await nhost.auth.signIn(data);
-      // Manejar el éxito
+      const { error } = await signInEmailPassword(data.email, data.password);
+      if (error) {
+        setError(error.message); // Mostrar el mensaje de error si ocurre
+      } else {
+        // Redirigir o manejar el éxito del inicio de sesión
+      }
     } catch {
-      setError("Credenciales inválidas. Intente nuevamente.");
+      setError("Hubo un problema en el inicio de sesión. Intente nuevamente.");
     }
   };
 
@@ -52,7 +57,6 @@ export default function SignInForm() {
               <FormControl>
                 <Input placeholder="ejemplo@correo.com" {...field} />
               </FormControl>
-              <FormDescription>Ingresa tu correo registrado.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -71,7 +75,6 @@ export default function SignInForm() {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>Tu contraseña de acceso.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

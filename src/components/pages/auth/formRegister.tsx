@@ -5,6 +5,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { nhost } from "@/lib/nhost";
+import { NhostProvider } from "@nhost/react";
+import { useSignUpEmailPassword } from "@nhost/nextjs";
 import {
   Form,
   FormControl,
@@ -17,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-
+// Schema de validación con zod
 const signUpSchema = z.object({
   email: z.string().email("Debe ser un correo electrónico válido"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
@@ -26,6 +28,7 @@ const signUpSchema = z.object({
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 export default function FormRegister() {
+  const { signUpEmailPassword } = useSignUpEmailPassword();
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
   });
@@ -34,14 +37,20 @@ export default function FormRegister() {
   const onSubmit = async (data: SignUpFormData) => {
     setError(null);
     try {
-      await nhost.auth.signUp(data);
-      // Manejar el éxito
+      const { error } = await signUpEmailPassword(data.email, data.password);
+      if (error) {
+        setError(error.message); // Manejar errores de registro
+      } else {
+        // Manejar el éxito
+      }
     } catch {
       setError("Hubo un problema en el registro. Intente nuevamente.");
     }
   };
 
   return (
+    <>
+      <NhostProvider nhost={nhost} >
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
@@ -86,6 +95,7 @@ export default function FormRegister() {
           Registrarse
         </Button>
       </form>
-    </Form>
+      </Form></NhostProvider>
+    </>
   );
 }

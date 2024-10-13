@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="flex justify-around items-center py-1 border-b">
+      <header className="flex justify-around items-center py-1 border-b h-16">
         <div className="flex justify-around items-center">
           <Link href="/" className="text-3xl font-bold">
             Stack Code
