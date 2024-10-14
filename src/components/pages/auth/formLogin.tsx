@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 // Schema de validación
 const signInSchema = z.object({
@@ -25,6 +26,7 @@ const signInSchema = z.object({
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function FormLogin() {
+  const router = useRouter();
   const { signInEmailPassword } = useSignInEmailPassword();
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
@@ -38,7 +40,7 @@ export default function FormLogin() {
       if (error) {
         setError(error.message); // Mostrar el mensaje de error si ocurre
       } else {
-        // Redirigir o manejar el éxito del inicio de sesión
+        router.push("/dashboard");
       }
     } catch {
       setError("Hubo un problema en el inicio de sesión. Intente nuevamente.");
