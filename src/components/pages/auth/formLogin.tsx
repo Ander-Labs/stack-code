@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-// Schema de validación
 const signInSchema = z.object({
   email: z.string().email("Debe ser un correo electrónico válido"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
@@ -36,12 +35,37 @@ export default function FormLogin() {
   const onSubmit = async (data: SignInFormData) => {
     setError(null);
     try {
-      const { error } = await signInEmailPassword(data.email, data.password);
-      if (error) {
-        setError(error.message); // Mostrar el mensaje de error si ocurre
-      } else {
-        router.push("/dashboard");
+      // Enviar datos a Nhost
+      const result = await signInEmailPassword(data.email, data.password);
+      console.log("este es lo que retorna result", result);
+      // Verificar si hay un error
+      if (result.isError) {
+        setError(
+          result.error?.message || "Hubo un error en el inicio de sesión."
+        );
+        return;
       }
+
+
+      // Accedemos directamente a accessToken y refreshToken
+      const accessToken = result.accessToken;
+      const refreshToken = result.refreshToken;
+
+       if (accessToken && refreshToken) {
+         // Llamada al endpoint para almacenar la cookie con el JWT
+         await fetch("/api/auth", {
+           method: "POST",
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({ accessToken, refreshToken }),
+         });
+
+         // Redirigir al usuario al dashboard
+         router.push("/dashboard");
+       } else {
+         setError("No se pudo obtener el token de acceso.");
+       }
     } catch {
       setError("Hubo un problema en el inicio de sesión. Intente nuevamente.");
     }
