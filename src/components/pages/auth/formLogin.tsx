@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useUserState } from "@/client/auth/userSate";
 
 const signInSchema = z.object({
   email: z.string().email("Debe ser un correo electrónico válido"),
@@ -29,15 +30,21 @@ export default function FormLogin() {
   const { signInEmailPassword } = useSignInEmailPassword();
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
   const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async (data: SignInFormData) => {
     setError(null);
     try {
+    
       // Enviar datos a Nhost
       const result = await signInEmailPassword(data.email, data.password);
       console.log("este es lo que retorna result", result);
+
       // Verificar si hay un error
       if (result.isError) {
         setError(
@@ -46,26 +53,32 @@ export default function FormLogin() {
         return;
       }
 
-
       // Accedemos directamente a accessToken y refreshToken
       const accessToken = result.accessToken;
       const refreshToken = result.refreshToken;
+      const user = result.user;
 
-       if (accessToken && refreshToken) {
-         // Llamada al endpoint para almacenar la cookie con el JWT
-         await fetch("/api/auth", {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/json",
-           },
-           body: JSON.stringify({ accessToken, refreshToken }),
-         });
+      if (accessToken && refreshToken) {
+        // Llamada al endpoint para almacenar la cookie con el JWT
+        await fetch("/api/auth", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ accessToken, refreshToken }),
+        });
 
-         // Redirigir al usuario al dashboard
-         router.push("/dashboard");
-       } else {
-         setError("No se pudo obtener el token de acceso.");
-       }
+        // Almacenar en el estado global con Zustand
+        useUserState.getState().setUser(user, accessToken, refreshToken);
+
+        // Restablecer el formulario
+        form.reset();
+
+        // Redirigir al usuario al dashboard
+        router.push("/dashboard");
+      } else {
+        setError("No se pudo obtener el token de acceso.");
+      }
     } catch {
       setError("Hubo un problema en el inicio de sesión. Intente nuevamente.");
     }

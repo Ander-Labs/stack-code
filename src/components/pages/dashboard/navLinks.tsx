@@ -17,18 +17,18 @@ const Links: Link[] = [
     icon: <DashboardIcon className="h-6 w-6" />,
   },
   {
-    name: "web",
-    href: "/dahboard/web",
+    name: "Web",
+    href: "/dashboard/web",
     icon: <PanelsTopLeft className="h-6 w-6" />,
   },
   {
-    name: "mobile",
-    href: "/dahboard/mobile",
+    name: "Mobile",
+    href: "/dashboard/mobile",
     icon: <MobileIcon className="h-6 w-6" />,
   },
   {
-    name: "desktop",
-    href: "/dahboard/desktop",
+    name: "Desktop",
+    href: "/dashboard/desktop",
     icon: <DesktopIcon className="h-6 w-6" />,
   },
 ];

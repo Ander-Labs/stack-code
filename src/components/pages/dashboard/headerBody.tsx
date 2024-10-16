@@ -12,16 +12,16 @@ const links: href[] = [
     href: "/dashboard",
   },
   {
-    title: "web",
-    href: "/dahboard/web",
+    title: "Web",
+    href: "/dashboard/web",
   },
   {
-    title: "mobile",
-    href: "/dahboard/mobile",
+    title: "Mobile",
+    href: "/dashboard/mobile",
   },
   {
-    title: "desktop",
-    href: "/dahboard/desktop",
+    title: "Desktop",
+    href: "/dashboard/desktop",
   },
 ];
 
@@ -32,7 +32,9 @@ export default function HeaderBody() {
     <>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl text-primary">
-          {pathName === links[0].href ? links[0].title : pathName}
+          {links.map((link, index) => (
+            <span key={index}>{pathName === link.href ? link.title : ""}</span>
+          ))}
         </h1>
       </div>
     </>
