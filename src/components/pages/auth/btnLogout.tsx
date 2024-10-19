@@ -4,6 +4,7 @@ import { useUserState } from "@/client/auth/userSate";
 import { Button } from "@/components/ui/button";
 import { useSignOut } from "@nhost/nextjs";
 
+
 export default function LogoutButton() {
   const router = useRouter();
   const { signOut } = useSignOut(); // Hook para cerrar sesión en Nhost

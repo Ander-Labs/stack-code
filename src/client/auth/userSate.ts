@@ -1,38 +1,26 @@
+import { User } from "@nhost/nextjs";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
-type User = {
-  avatarUrl: string | null;
-  createdAt: string;
-  defaultRole: string;
-  displayName: string;
-  email?: string;
-  emailVerified: boolean;
-  id: string;
-  isAnonymous: boolean;
-  locale: string;
-  metadata: object | null;
-  phoneNumber: string | null;
-  phoneNumberVerified: boolean;
-  roles: string[];
-};
+// Definir el tipo User si es necesario, asegurándote de que los campos opcionales estén correctos
+type CustomUser = User | null; // Esto permite que sea null o undefined
 
 type UserStore = {
-  user: User | null;
-  accessToken: string | null;
-  refreshToken: string | null;
-  setUser: (
-    user: User | null,
-    accessToken: string,
-    refreshToken: string
-  ) => void;
+  user: CustomUser; // Permitir que el user sea 'User | null'
+  setUser: (user: User) => void;
   clearUser: () => void;
 };
 
-export const useUserState = create<UserStore>((set) => ({
-  user: null,
-  accessToken: null,
-  refreshToken: null,
-  setUser: (user, accessToken, refreshToken) =>
-    set({ user, accessToken, refreshToken }),
-  clearUser: () => set({ user: null, accessToken: null, refreshToken: null }),
-}));
+export const useUserState = create<UserStore>()(
+  persist(
+    (set) => ({
+      user: null, // Inicialmente null
+      setUser: (user) => set({ user }), // Asignar el user
+      clearUser: () => set({ user: null }), // Limpiar el user
+    }),
+    {
+      name: "user-storage",
+      storage: createJSONStorage(() => localStorage), // Configuración para almacenamiento persistente
+    }
+  )
+);

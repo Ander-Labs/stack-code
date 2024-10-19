@@ -4,8 +4,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { nhost } from "@/lib/nhost";
-import { NhostProvider } from "@nhost/react";
 import { useSignUpEmailPassword } from "@nhost/nextjs";
 import {
   Form,
@@ -56,7 +54,7 @@ export default function FormRegister() {
 
   return (
     <>
-      <NhostProvider nhost={nhost} >
+    
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
@@ -101,7 +99,7 @@ export default function FormRegister() {
           Registrarse
         </Button>
       </form>
-      </Form></NhostProvider>
+      </Form> 
     </>
   );
 }

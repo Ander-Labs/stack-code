@@ -23,6 +23,10 @@ const links: href[] = [
     title: "Desktop",
     href: "/dashboard/desktop",
   },
+  {
+    title: "Account",
+    href: "/dashboard/account",
+  },
 ];
 
 export default function HeaderBody() {

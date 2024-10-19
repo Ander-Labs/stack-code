@@ -15,6 +15,7 @@ const FormRegister = dynamic(
   () => import("@/components/pages/auth/formRegister")
 );
 const FormLogin = dynamic(() => import("@/components/pages/auth/formLogin"));
+const SignInGitHub = dynamic(() => import("./hook/signInGtHub"));
 
 export default function tabsAuth() {
   return (
@@ -56,10 +57,7 @@ export default function tabsAuth() {
               <FormRegister />
             </CardContent>
             <CardFooter className="flex justify-center items-center gap-3">
-              <Button variant={"outline"}>
-                {" "}
-                <GitHubLogoIcon /> <span className="px-2">GitHub</span>
-              </Button>
+              <SignInGitHub />
             </CardFooter>
           </Card>
         </TabsContent>

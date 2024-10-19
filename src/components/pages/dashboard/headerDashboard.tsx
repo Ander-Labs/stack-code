@@ -3,6 +3,8 @@ import { Bell, Layers3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import dynamic from "next/dynamic";
+import ProviderNhost from "@/components/global/providerNhost";
+import ProviderTQuery from "@/components/global/providerTQuery";
 
 const NavLinks = dynamic(() => import("./navLinks"));
 const Body = dynamic(() => import("./body"));
@@ -48,7 +50,11 @@ export default function HeaderDashboard({
           <UserMenu />
           <ModeToggle />
         </header>
-        <Body>{children}</Body>
+        <ProviderTQuery>
+        <ProviderNhost>
+          <Body>{children}</Body>
+          </ProviderNhost>
+        </ProviderTQuery>
       </div>
     </div>
   );

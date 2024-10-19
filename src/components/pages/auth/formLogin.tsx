@@ -40,7 +40,6 @@ export default function FormLogin() {
   const onSubmit = async (data: SignInFormData) => {
     setError(null);
     try {
-    
       // Enviar datos a Nhost
       const result = await signInEmailPassword(data.email, data.password);
       console.log("este es lo que retorna result", result);
@@ -58,7 +57,7 @@ export default function FormLogin() {
       const refreshToken = result.refreshToken;
       const user = result.user;
 
-      if (accessToken && refreshToken) {
+      if (user && accessToken && refreshToken) {
         // Llamada al endpoint para almacenar la cookie con el JWT
         await fetch("/api/auth", {
           method: "POST",
@@ -69,7 +68,7 @@ export default function FormLogin() {
         });
 
         // Almacenar en el estado global con Zustand
-        useUserState.getState().setUser(user, accessToken, refreshToken);
+        useUserState.getState().setUser(user);
 
         // Restablecer el formulario
         form.reset();
@@ -85,46 +84,48 @@ export default function FormLogin() {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Correo Electrónico</FormLabel>
-              <FormControl>
-                <Input placeholder="ejemplo@correo.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Correo Electrónico</FormLabel>
+                <FormControl>
+                  <Input placeholder="ejemplo@correo.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contraseña</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Ingresa tu contraseña"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Contraseña</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Ingresa tu contraseña"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {error && <p className="text-red-500">{error}</p>}
+          {error && <p className="text-red-500">{error}</p>}
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          Iniciar Sesión
-        </Button>
-      </form>
-    </Form>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            Iniciar Sesión
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }
