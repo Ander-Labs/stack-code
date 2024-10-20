@@ -26,15 +26,23 @@ type FormData = {
 };
 
 const updateUser = async (id: string, data: FormData) => {
-  const response = await axios.post(
-    `https://qyazskktpylpyqdgnchh.hasura.sa-east-1.nhost.run/api/rest/users/${id}`,
+  const response = await axios.put(
+    `${process.env.NEXT_PUBLIC_HASURA_UPDATE_USER_API}/${id}`,
     {
       displayName: data.displayName,
       email: data.email,
+    },
+    {
+      headers: {
+        "x-hasura-admin-secret": process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET,
+        "Content-Type": "application/json",
+      },
     }
   );
   return response.data;
 };
+
+console.log("Admin Secret:", process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET);
 
 export default function SheetAccountEdit() {
   const user = useUserState((state) => state.user); // Estado global para obtener el id del usuario
