@@ -29,18 +29,25 @@ const links: href[] = [
   },
 ];
 
+
+
 export default function HeaderBody() {
   const pathName = usePathname();
 
   return (
     <>
-      <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl text-primary">
-          {links.map((link, index) => (
-            <span key={index}>{pathName === link.href ? link.title : ""}</span>
-          ))}
-        </h1>
-      </div>
+      <div className="flex items-center justify-around">
+      
+          <h1 className="text-lg font-semibold md:text-2xl text-primary">
+            {links.map((link, index) => (
+              <span key={index}>
+                {pathName === link.href ? link.title : ""}
+              </span>
+            ))}
+          </h1>
+        </div>
+        
+    
     </>
   );
 }
