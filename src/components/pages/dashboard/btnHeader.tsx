@@ -14,6 +14,8 @@ export default function BtnHeader() {
           {" "}
           <AddBtn />{" "}
         </div>
+      ) : Pathname === "/dashboard/web" ? (
+        <AddBtn />
       ) : null}
     </>
   );

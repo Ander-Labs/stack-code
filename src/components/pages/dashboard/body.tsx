@@ -11,7 +11,7 @@ export default function Body({
   return (
     <>
       <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-        <div className="flex justify-around">
+        <div className="flex justify-between items-center">
           <div className="flex items-center">
             <HeaderBody />
           </div>
