@@ -1,4 +1,4 @@
-// import dynamic from "next/dynamic";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { WebTec, WebTecType } from "@/Schema/addWebStack";

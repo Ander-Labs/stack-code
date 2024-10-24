@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const AddBtn = dynamic(() => import("./web/add/addBtn"));
+const AddBtnTec = dynamic(() => import("./tecnologies/addBtnTec"));
 
 export default function BtnHeader() {
   const Pathname = usePathname();
@@ -12,7 +13,7 @@ export default function BtnHeader() {
       {Pathname === "/dashboard" ? (
         <div className="flex gap-4">
           {" "}
-          <AddBtn />{" "}
+          <AddBtn />{" "} <AddBtnTec />
         </div>
       ) : Pathname === "/dashboard/web" ? (
         <AddBtn />

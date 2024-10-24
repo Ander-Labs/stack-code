@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 const updateUser = async (data: FormData) => {
-  const response = await axios.put(`/api/users/${data.id}`, data);
+  const response = await axios.put(`/api/users/${data.keys}`, data);
   return response.data;
 };
 

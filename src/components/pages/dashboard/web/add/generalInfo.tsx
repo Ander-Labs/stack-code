@@ -34,9 +34,13 @@ export default function GeneralInfo({ control }: GeneralInfoProps) {
           <FormItem>
             <FormLabel>Name</FormLabel>
             <FormControl>
-              <Input placeholder="Name" required {...field} />
+              <Input
+                placeholder="Dale un nombre a tu Stack"
+                required
+                {...field}
+              />
             </FormControl>
-            <FormDescription>Nombre de la plataforma o web.</FormDescription>
+            <FormDescription>Nombre del stack web.</FormDescription>
             <FormMessage>{fieldState.error?.message}</FormMessage>
           </FormItem>
         )}
@@ -49,13 +53,13 @@ export default function GeneralInfo({ control }: GeneralInfoProps) {
             <FormLabel>Descripción</FormLabel>
             <FormControl>
               <Textarea
-                placeholder="Descripcion de la plataforma."
+                placeholder="Descripcion de en que proyectos se puede usar este Stack."
                 required
                 {...field}
               />
             </FormControl>
             <FormDescription>
-              Breve descripción de la plataforma.
+              Breve descripción donde se puede usar este Stack.
             </FormDescription>
             <FormMessage>{fieldState.error?.message}</FormMessage>
           </FormItem>
@@ -80,7 +84,7 @@ export default function GeneralInfo({ control }: GeneralInfoProps) {
               </Select>
             </FormControl>
             <FormDescription>
-              Breve descripción de la plataforma.
+              Selecciona la categoria a la que pertenece el stack.
             </FormDescription>
             <FormMessage>{fieldState.error?.message}</FormMessage>
           </FormItem>
@@ -94,7 +98,7 @@ export default function GeneralInfo({ control }: GeneralInfoProps) {
             <FormLabel>Sub Categoria</FormLabel>
             <FormControl>
               <Input
-                placeholder="React. Angular, Astro, etc."
+                placeholder="JS, TS, GO,PHP, React, Angular, Astro, etc."
                 required
                 {...field}
               />
