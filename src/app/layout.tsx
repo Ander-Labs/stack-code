@@ -4,6 +4,8 @@ import "./globals.css";
 import dynamic from "next/dynamic";
 import { Toaster } from "@/components/ui/toaster";
 
+
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -48,6 +50,7 @@ export default function RootLayout({
           <MobileNav />
           <Toaster />
         </ThemeProvider>
+        {/* <GoogleAnalytics gaId="G-6JNMMZZK3Q" /> */}
       </body>
     </html>
   );
