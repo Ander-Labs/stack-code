@@ -1,29 +1,35 @@
-import { signInWithPopup, GithubAuthProvider } from "firebase/auth";
-import {Auth} from '@/config/firebase/firebaseConfig'
+import {
+  signInWithPopup,
+  GithubAuthProvider
+} from "firebase/auth";
+import { Auth } from "@/config/firebase/firebaseConfig"; // Asegúrate de que esto esté correcto
 
 const provider = new GithubAuthProvider();
 
+export const githubSignIn = async (): Promise<void> => {
+  try {
+    // Aquí se usa la instancia de autenticación de Firebase
+    const result = await signInWithPopup(Auth, provider);
 
-export const GithubSignIn = Auth();
-signInWithPopup(Auth, provider)
-  .then((result) => {
-    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+    // Obtiene el token de acceso de GitHub
     const credential = GithubAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
+    const token = credential?.accessToken;
 
-    // The signed-in user info.
+    // Información del usuario que ha iniciado sesión
     const user = result.user;
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  })
-  .catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = GithubAuthProvider.credentialFromError(error);
-    // ...
-  });
 
+    // Aquí puedes manejar la información del usuario o el token según sea necesario
+    console.log("User Info:", user);
+    console.log("Access Token:", token);
+  } catch (error) {
+    // Manejo de errores
+    if (error instanceof Error) {
+
+      console.error("Error Code:", error.name);
+      console.error("Error Message:", error.message);
+
+    } else {
+      console.error("An unexpected error occurred:", error);
+    }
+  }
+};
